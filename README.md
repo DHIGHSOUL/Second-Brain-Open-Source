@@ -1,63 +1,76 @@
-# Jarvis-Second Brain
+# Second Brain with ChatGPT
 
-Jarvis Second Brain Harness is an experimental open-source project for connecting ChatGPT, Codex, voice control, Mac automation, and Obsidian MCP into a personal AI operating system.
+Second Brain with ChatGPT is an experimental open-source project for building a personal AI knowledge system with ChatGPT, Codex, Obsidian, n8n, voice control, and local Mac automation.
 
-The goal of this project is not only to control a computer by voice, but to design a safe and reusable harness that allows users to connect AI assistants with their own working environment, knowledge base, and daily workflows.
+This repository opens the design behind my personal Second Brain project. It documents how an AI assistant can help capture ideas, search notes, organize knowledge, trigger workflows, and work with a local environment while keeping safety, approval, and user control at the center.
 
-This project is currently in an early stage. The initial focus is on documenting the architecture, safety model, command schema, approval flow, and automation patterns before expanding into a working implementation.
+The project started as a personal system. The goal of open-sourcing it is to share the architecture, prompts, workflow patterns, command schema, and security model so other people can adapt the ideas for their own knowledge base and automation setup.
 
-Currently I use like this<br>
+## Current personal setup
 
 **Architecture**
+
 ![Second-Brain-Architecture](./img/Second_Brain_Architecture_English.png)
 
-**n8n-Workflows**
+**n8n workflows**
+
 ![Actual-n8n](./img/Actual_n8n.png)
 
-**Obsidian-Vault**
+**Obsidian vault**
+
 ![Obsidian-Vault](./img/Obsidian-Vault.png)
+
+## What this project explores
+
+This project treats ChatGPT as more than a question-answering interface. It explores ChatGPT and Codex as part of a personal operating layer that can:
+
+* Capture thoughts, tasks, and research into a Second Brain
+* Search and summarize an Obsidian knowledge base
+* Convert natural language into structured workflow commands
+* Connect Custom GPTs to n8n automation workflows
+* Use Codex as a development and maintenance assistant
+* Prepare Mac automation actions with explicit approval
+* Keep destructive, external, and system-level actions gated by safety checks
 
 ## Goals
 
-* Build a voice-driven interface for interacting with ChatGPT and Codex
-* Connect Custom GPTs with local tools such as Mac automation and Obsidian MCP
-* Design a safe command execution harness with explicit user approval
-* Classify commands by risk level before execution
-* Prevent destructive actions from running without confirmation
-* Share reusable prompts, schemas, harness patterns, and security practices as open source
+* Open-source the design of a real personal Second Brain system
+* Share reusable Custom GPT instructions and command schemas
+* Document the connection between ChatGPT, Codex, Obsidian, n8n, and local automation
+* Build a safe command and workflow approval model
+* Separate read-only knowledge access from write, destructive, external, and system actions
+* Provide examples that other developers can adapt without exposing private data
 
 ## Why this project matters
 
-Many people use ChatGPT as a question-answering tool, but fewer users have a safe and reusable way to connect it with their actual working environment. This project explores how ChatGPT and Codex can become part of a personal operating system: helping users search notes, update knowledge, manage tasks, and interact with local tools through natural language and voice.
+Many people keep notes, tasks, bookmarks, and project knowledge in separate tools. ChatGPT can help reason over that information, but connecting it to a real working environment introduces risk: private notes can leak, files can be modified incorrectly, and automations can run at the wrong time.
 
-By open-sourcing this project, the project aims to provide a practical reference for developers who want to build their own AI-powered workflows, Second Brain systems, and local automation tools.
+Second Brain with ChatGPT is an attempt to make that connection practical and safer. The assistant should be able to propose actions, explain them, and prepare structured commands, while the user remains the operator who approves sensitive changes.
 
 ## Current status
 
-This repository is in the planning and early implementation phase.
+This repository is in the early open-source documentation phase.
 
 Current focus:
 
-* Architecture design
-* Command schema design
-* Custom GPT instruction design
-* Safety and approval flow
-* Obsidian MCP integration planning
-* Mac automation research
-* Codex harness design
+* Documenting the existing personal Second Brain architecture
+* Describing the Obsidian, n8n, ChatGPT, Codex, and Mac automation roles
+* Defining a safe command schema
+* Drafting Custom GPT instructions
+* Describing the approval and risk-classification model
+* Publishing sanitized examples that do not include private notes, API keys, or local credentials
 
 ## Planned components
 
-* Voice command interface
-* Command parser
-* Intent classification
-* Risk classification
-* Approval gate
-* Mac automation adapter
-* Obsidian MCP adapter
-* n8n workflow examples
+* Obsidian vault patterns
 * Custom GPT instruction templates
-* Codex harness examples
+* Command schema for AI-generated actions
+* Risk classifier and approval gate
+* n8n workflow examples
+* Mac automation adapter patterns
+* Voice command capture flow
+* Codex-assisted project maintenance examples
+* Local logging and audit trail design
 
 ## Safety principles
 
@@ -67,8 +80,9 @@ This project follows a safe-by-default design.
 * Destructive actions must require explicit approval
 * External network calls must be visible to the user
 * File deletion, overwrite, and data export must never run silently
-* The system should explain what it plans to do before executing actions
-* Logs should be available for review
+* The assistant should explain what it plans to do before execution
+* Secrets, vault contents, and private logs must not be committed
+* Logs should be reviewable without exposing sensitive content
 
 ## Repository structure
 
@@ -82,17 +96,21 @@ This project follows a safe-by-default design.
 │   ├── ARCHITECTURE.md
 │   ├── HARNESS_DESIGN.md
 │   └── SECURITY_MODEL.md
-└── examples/
-    ├── command-schema.json
-    ├── custom-gpt-instructions.md
-    ├── n8n-workflow-overview.md
-    └── safe-command-examples.md
+├── examples/
+│   ├── command-schema.json
+│   ├── custom-gpt-instructions.md
+│   ├── n8n-workflow-overview.md
+│   └── safe-command-examples.md
+└── img/
+    ├── Actual_n8n.png
+    ├── Obsidian-Vault.png
+    └── Second_Brain_Architecture_English.png
 ```
 
 ## Documentation
 
 * [Architecture](docs/ARCHITECTURE.md)
-* [Harness design](docs/HARNESS_DESIGN.md)
+* [Automation harness design](docs/HARNESS_DESIGN.md)
 * [Security model](docs/SECURITY_MODEL.md)
 * [Roadmap](ROADMAP.md)
 * [Security policy](SECURITY.md)
@@ -106,9 +124,9 @@ This project follows a safe-by-default design.
 
 ## Project philosophy
 
-The project treats AI automation as a tool that should be understandable, inspectable, and reversible where possible. The harness should help an assistant propose actions, explain its reasoning, and ask for approval before touching sensitive local systems.
+The user remains the owner of the Second Brain. AI assistants can help search, summarize, draft, classify, and prepare actions, but the system should make important actions visible and reversible where possible.
 
-The user remains the operator. The AI proposes and prepares actions; the harness verifies, limits, logs, and executes only what is allowed.
+The goal is not full autonomy. The goal is a practical, inspectable, and personal AI workflow system that can grow safely over time.
 
 ## License
 

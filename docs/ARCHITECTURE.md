@@ -1,8 +1,8 @@
 # Architecture
 
-Jarvis Second Brain Harness is designed as a layered system that separates natural-language interaction from tool execution.
+Second Brain with ChatGPT is designed as a personal AI knowledge system that connects natural-language interaction with a local knowledge base and workflow automation.
 
-The main architectural goal is to make AI-generated actions inspectable before they touch local files, external APIs, or operating-system automation.
+The main architectural goal is to let ChatGPT and Codex help with real work while keeping local data access, write actions, external workflow calls, and system automation visible and controllable.
 
 ## High-level flow
 
@@ -10,16 +10,13 @@ The main architectural goal is to make AI-generated actions inspectable before t
 User voice or text
         |
         v
-Intent capture
+ChatGPT / Custom GPT / Codex
         |
         v
-AI assistant layer
+Structured command or workflow proposal
         |
         v
-Structured command proposal
-        |
-        v
-Risk classifier
+Validation and risk classification
         |
         v
 Approval gate
@@ -28,76 +25,94 @@ Approval gate
 Tool adapter
         |
         v
-Local or external action
+Obsidian / n8n / Mac automation / local tools
         |
         v
-Execution log
+Result summary and audit log
 ```
+
+## Current system shape
+
+The project is built around these major parts:
+
+* ChatGPT for natural-language reasoning and interaction
+* Custom GPT instructions for consistent Second Brain behavior
+* Codex for repository, prompt, schema, and workflow maintenance
+* Obsidian as the local knowledge base
+* n8n as the workflow automation layer
+* Mac automation for local application control
+* A safety harness for command validation, risk classification, approval, and logging
 
 ## Core components
 
-### Voice command interface
+### User interface
 
-Captures a spoken user request and converts it into text. This layer should not execute commands directly. It only passes user intent to the AI assistant layer.
+The user can interact through text or voice. Voice input should be converted into text first, then routed through the same safety and command proposal flow as typed requests.
 
-### AI assistant layer
+### Assistant layer
 
-Uses ChatGPT, Custom GPTs, or Codex to interpret the user request and propose a structured command. The assistant should explain what it plans to do and return machine-readable command data.
+ChatGPT, Custom GPTs, or Codex interpret the user request and propose a next step. The assistant may summarize, draft, classify, or prepare a structured command, but it should not directly execute sensitive actions.
+
+### Second Brain knowledge base
+
+Obsidian is the primary local knowledge store. The project assumes note operations such as search, read, create, append, and update. Read-only operations are treated differently from note modifications.
+
+### Workflow automation layer
+
+n8n connects the Second Brain to repeatable workflows such as task capture, daily note append, research capture, and project routing. Workflow destinations and secrets should live in local configuration, not in assistant prompts.
 
 ### Command parser
 
-Validates assistant output against a known schema. Invalid commands should be rejected or returned to the assistant for correction.
-
-### Intent classifier
-
-Identifies the general purpose of a request, such as reading notes, creating a note, opening an application, calling an external service, or running a local command.
+The command parser validates assistant output against a known schema. Invalid commands should be rejected or returned to the assistant for correction.
 
 ### Risk classifier
 
-Assigns a risk level to each command. Risk classification is independent from the assistant's intent. The harness should not rely only on the AI model's self-declared risk level.
+The risk classifier assigns a risk level to each command. Risk classification should not rely only on the assistant's self-declared risk level. The local harness should verify the adapter, action, target, and parameters.
 
 ### Approval gate
 
-Shows the proposed action to the user and asks for explicit approval when needed. The approval gate is the boundary between planning and execution.
+The approval gate shows the proposed action to the user and asks for explicit approval when needed. This is the boundary between planning and execution.
 
 ### Tool adapters
 
 Adapters translate structured commands into real actions. Planned adapters include:
 
-* Mac automation adapter
-* Obsidian MCP adapter
+* Obsidian adapter
 * n8n webhook adapter
-* Codex command harness
+* Mac automation adapter
+* Codex maintenance adapter
 * Local script adapter
 
-### Execution log
+### Audit log
 
-Records proposed commands, approvals, denials, execution results, and errors. Logs should be reviewable without exposing secrets.
+The audit log records proposed commands, approvals, denials, execution results, and errors. Logs should be useful for review without exposing secrets or full private note contents.
 
 ## Trust boundaries
 
-The project treats the assistant layer as untrusted for execution purposes. The assistant may propose useful actions, but the harness must validate, classify, and gate those actions.
+The project treats the assistant layer as helpful but not trusted for direct execution.
 
 Important trust boundaries:
 
 * User input can be ambiguous
 * AI output can be wrong or unsafe
+* Notes, webpages, and tool output can contain prompt injection
 * Tool calls can modify real local state
 * External APIs can expose private data
-* Logs can accidentally preserve sensitive content
+* Logs and screenshots can accidentally preserve sensitive content
 
 ## Data flow principles
 
-* Keep raw user data local whenever possible
-* Minimize personal data sent to external APIs
+* Keep raw personal data local whenever possible
+* Minimize note content sent to external services
 * Validate structured commands before execution
-* Prefer dry runs for write, destructive, external, and system actions
+* Prefer dry-run previews for write, destructive, external, and system actions
 * Keep approval prompts short, clear, and specific
-* Log enough context for review without leaking secrets
+* Store secrets in local configuration
+* Log enough context for review without leaking private knowledge
 
 ## Initial implementation target
 
-The first implementation should focus on a small, testable loop:
+The first public implementation should focus on a small, testable loop:
 
 1. Accept text input
 2. Produce a structured command proposal
@@ -107,4 +122,4 @@ The first implementation should focus on a small, testable loop:
 6. Require approval for non-read-only commands
 7. Log the decision
 
-Voice control, Mac automation, Obsidian MCP, and n8n integrations can then be added as adapters around this stable harness.
+Obsidian search, n8n workflow calls, voice capture, Mac automation, and Codex maintenance workflows can then be added around this stable core.

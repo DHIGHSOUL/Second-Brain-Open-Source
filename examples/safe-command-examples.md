@@ -1,6 +1,6 @@
 # Safe Command Examples
 
-These examples show how the harness should represent common commands before execution.
+These examples show how the Second Brain automation layer should represent common commands before execution.
 
 ## Read-only note search
 
@@ -24,21 +24,21 @@ These examples show how the harness should represent common commands before exec
 
 Expected behavior: the harness may execute this without approval if the Obsidian adapter is configured as read-only.
 
-## Create a note
+## Create a project note
 
 ```json
 {
-  "command_id": "cmd_create_codex_note",
+  "command_id": "cmd_create_second_brain_note",
   "version": "0.1",
   "intent": "create_note",
   "risk_level": "write",
   "adapter": "obsidian",
   "action": "create_note",
   "parameters": {
-    "path": "Projects/Jarvis/Codex Harness.md",
-    "content": "# Codex Harness\n\nDraft notes for the local command harness."
+    "path": "Projects/Second Brain/Workflow Ideas.md",
+    "content": "# Workflow Ideas\n\nDraft ideas for improving the Second Brain capture flow."
   },
-  "summary": "Create a new Obsidian note for Codex Harness planning.",
+  "summary": "Create a new Obsidian note for Second Brain workflow ideas.",
   "requires_approval": true,
   "approval_reason": "This will create a new file in the Obsidian vault.",
   "dry_run": true
@@ -47,21 +47,21 @@ Expected behavior: the harness may execute this without approval if the Obsidian
 
 Expected behavior: show a preview and require approval before writing the file.
 
-## Update a note
+## Append to a daily note
 
 ```json
 {
-  "command_id": "cmd_update_project_index",
+  "command_id": "cmd_append_daily_note",
   "version": "0.1",
   "intent": "update_note",
   "risk_level": "write",
   "adapter": "obsidian",
   "action": "append_to_note",
   "parameters": {
-    "path": "Projects/Jarvis/Index.md",
-    "content": "- Add command schema validation to the prototype."
+    "path": "Daily/2026-06-05.md",
+    "content": "- Captured a new idea for the Second Brain command approval flow."
   },
-  "summary": "Append a task to the Jarvis project index note.",
+  "summary": "Append a short entry to today's daily note.",
   "requires_approval": true,
   "approval_reason": "This will modify an existing note.",
   "dry_run": true
@@ -81,9 +81,9 @@ Expected behavior: show the exact note path and appended content before approval
   "adapter": "obsidian",
   "action": "delete_note",
   "parameters": {
-    "path": "Projects/Jarvis/Old Draft.md"
+    "path": "Projects/Second Brain/Old Draft.md"
   },
-  "summary": "Delete the old Jarvis draft note.",
+  "summary": "Delete an old Second Brain draft note.",
   "requires_approval": true,
   "approval_reason": "This will remove a note from the Obsidian vault.",
   "dry_run": true
@@ -127,11 +127,11 @@ Expected behavior: require approval unless the user has explicitly allowlisted t
   "parameters": {
     "webhook_name": "task_inbox",
     "payload_preview": {
-      "title": "Review Jarvis command schema",
-      "source": "jarvis_harness"
+      "title": "Review Second Brain command schema",
+      "source": "second_brain"
     }
   },
-  "summary": "Send a new task to the configured n8n task inbox webhook.",
+  "summary": "Send a new task to the configured n8n task inbox workflow.",
   "requires_approval": true,
   "approval_reason": "This will send task data to an external workflow endpoint.",
   "dry_run": true

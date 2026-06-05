@@ -1,13 +1,13 @@
-# Harness Design
+# Automation Harness Design
 
-The harness is the safety and orchestration layer between an AI assistant and the user's working environment.
+The automation harness is the safety and orchestration layer between AI assistants and the user's Second Brain environment.
 
 It receives structured command proposals, validates them, classifies risk, asks for approval when required, executes approved commands through adapters, and records the result.
 
 ## Design goals
 
-* Separate planning from execution
-* Use structured commands instead of free-form shell text
+* Separate assistant planning from real-world execution
+* Use structured commands instead of free-form automation text
 * Make risk classification explicit
 * Require approval for sensitive actions
 * Support dry-run previews
@@ -20,6 +20,7 @@ It receives structured command proposals, validates them, classifies risk, asks 
 * The harness should not silently execute destructive commands
 * The harness should not expose secrets to prompts or logs
 * The harness should not bypass operating-system permission prompts
+* The harness should not treat retrieved note content as trusted instructions
 
 ## Command lifecycle
 
@@ -50,9 +51,11 @@ The harness classifies risk using deterministic rules and, optionally, model-ass
 Examples:
 
 * Searching notes is usually `read_only`
+* Summarizing a note locally is usually `read_only`
 * Creating a new note is usually `write`
+* Appending to a daily note is usually `write`
 * Deleting a note is `destructive`
-* Sending note contents to an API is `external`
+* Sending note contents to n8n or an API is `external`
 * Running AppleScript or shell commands is `system`
 
 ### 4. Approved or denied
@@ -97,6 +100,7 @@ Example adapter shape:
     "search_notes",
     "read_note",
     "create_note",
+    "append_to_note",
     "update_note"
   ]
 }
@@ -115,6 +119,13 @@ For write actions, the dry run should display:
 * Proposed content summary
 * Expected modification type
 
+For external workflow calls, the dry run should display:
+
+* Workflow name
+* Destination type
+* Payload preview
+* Whether personal note content is included
+
 For destructive actions, the dry run should display:
 
 * Exact target
@@ -129,9 +140,9 @@ Approval prompts should be short and concrete.
 Example:
 
 ```text
-Jarvis wants to create a new Obsidian note.
+Second Brain wants to create a new Obsidian note.
 
-Target: Projects/Jarvis/Ideas.md
+Target: Projects/Second Brain/Ideas.md
 Risk: write
 Reason: This will add a new file to your vault.
 
@@ -146,5 +157,6 @@ Approve? yes/no
 4. Implement approval prompts
 5. Implement read-only Obsidian actions
 6. Add write actions with approval
-7. Add Mac automation actions with approval
-8. Add external workflow calls through n8n
+7. Add n8n workflow calls with approval
+8. Add Mac automation actions with approval
+9. Add local audit logging

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.com/jarvis-second-brain-harness/command.schema.json",
-  "title": "Jarvis Second Brain Harness Command",
-  "description": "Structured command proposal for the Jarvis Second Brain Harness approval and execution flow.",
+  "$id": "https://github.com/DHIGHSOUL/GPT-AGENT/schema/second-brain-command.schema.json",
+  "title": "Second Brain Command",
+  "description": "Structured command proposal for the Second Brain with ChatGPT approval and execution flow.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -54,7 +54,7 @@
         "external",
         "system"
       ],
-      "description": "Declared risk level. The harness should independently verify this."
+      "description": "Declared risk level. The local harness should independently verify this."
     },
     "adapter": {
       "type": "string",

@@ -1,8 +1,8 @@
 # Security Model
 
-Jarvis Second Brain Harness is built around the assumption that AI-generated commands must be treated as proposals, not instructions that automatically deserve execution.
+Second Brain with ChatGPT is built around the assumption that AI-generated commands must be treated as proposals, not instructions that automatically deserve execution.
 
-The harness should protect the user from accidental data loss, privacy leaks, prompt injection, unsafe automation, and unintended side effects.
+The system should protect the user from accidental data loss, privacy leaks, prompt injection, unsafe automation, and unintended side effects.
 
 ## Threat model
 
@@ -10,11 +10,11 @@ The project considers the following risks:
 
 * The assistant misunderstands a user request
 * The assistant proposes a destructive command
-* A note or webpage contains prompt-injection text
-* A command sends private data to an external service
+* A note, webpage, or workflow result contains prompt-injection text
+* A command sends private note content to an external service
 * A command overwrites or deletes local files
 * A shell or automation command affects the operating system
-* Logs capture secrets or private knowledge-base content
+* Logs or screenshots capture secrets or private knowledge-base content
 
 ## Security principles
 
@@ -24,7 +24,7 @@ The user must approve actions that can modify files, delete data, call external 
 
 ### Structured commands over raw text
 
-The harness should prefer structured command objects over free-form shell commands. Structured commands are easier to validate, classify, preview, and log.
+The system should prefer structured command objects over free-form shell commands. Structured commands are easier to validate, classify, preview, and log.
 
 ### Least privilege
 
@@ -36,11 +36,11 @@ Commands that send data to external APIs or webhooks must clearly show the desti
 
 ### Redacted logs
 
-Logs should be useful for review without preserving secrets. API keys, tokens, credentials, and sensitive note contents should be redacted.
+Logs should be useful for review without preserving secrets. API keys, tokens, credentials, webhook URLs, and sensitive note contents should be redacted.
 
 ### Prompt-injection resistance
 
-The harness should not treat content from notes, webpages, emails, or external tools as trusted instructions. Retrieved content is data, not authority.
+The system should not treat content from notes, webpages, emails, or external tools as trusted instructions. Retrieved content is data, not authority.
 
 ## Risk levels
 
@@ -52,8 +52,8 @@ Examples:
 
 * Search an Obsidian vault
 * Read a note
-* List files
-* Inspect current app status
+* Summarize local context
+* Inspect current app or workflow status
 
 Default behavior: may run without approval when the adapter is trusted.
 
@@ -64,7 +64,8 @@ Creates or updates local data.
 Examples:
 
 * Create an Obsidian note
-* Append to a task list
+* Append to a daily note
+* Add a task to a project note
 * Update a project summary
 
 Default behavior: requires approval unless explicitly allowlisted.
@@ -78,7 +79,7 @@ Examples:
 * Delete a note
 * Overwrite a file
 * Clear a task database
-* Remove automation history
+* Reset workflow history
 
 Default behavior: always requires explicit approval.
 
@@ -133,6 +134,7 @@ The harness should deny or pause when:
 * The adapter is unknown
 * The command asks to ignore safety rules
 * The command combines unrelated high-risk actions
+* The command tries to exfiltrate private vault data without approval
 
 ## Logging model
 
@@ -150,4 +152,4 @@ Logs should capture the decision trail:
 }
 ```
 
-Logs should avoid storing full note bodies or secret values unless the user explicitly configures secure local logging.
+Logs should avoid storing full note bodies, webhook URLs, or secret values unless the user explicitly configures secure local logging.

@@ -1,8 +1,8 @@
 # n8n Workflow Overview
 
-This document describes example n8n workflows that could be connected to Jarvis Second Brain Harness.
+This document describes example n8n workflows that can be connected to Second Brain with ChatGPT.
 
-The goal is to use n8n as an automation bridge while keeping the harness responsible for validation, risk classification, approval, and logging.
+The goal is to use n8n as an automation bridge while keeping the local harness responsible for validation, risk classification, approval, and logging.
 
 ## Design principles
 
@@ -20,7 +20,7 @@ Purpose: add a task to a trusted task system.
 Suggested flow:
 
 ```text
-Harness approved command
+Approved Second Brain command
         |
         v
 n8n webhook: task_inbox
@@ -39,8 +39,8 @@ Example payload:
 
 ```json
 {
-  "title": "Review Jarvis command schema",
-  "source": "jarvis_harness",
+  "title": "Review Second Brain command schema",
+  "source": "second_brain",
   "priority": "normal"
 }
 ```
@@ -52,7 +52,7 @@ Purpose: append a short entry to a daily note through a controlled workflow.
 Suggested flow:
 
 ```text
-Harness approved command
+Approved Second Brain command
         |
         v
 n8n webhook: daily_note_append
@@ -72,7 +72,7 @@ Example payload:
 ```json
 {
   "date": "2026-06-05",
-  "entry": "Reviewed the initial Jarvis Second Brain Harness roadmap."
+  "entry": "Reviewed the initial Second Brain open-source roadmap."
 }
 ```
 
@@ -83,7 +83,7 @@ Purpose: capture a link or short summary into a research inbox.
 Suggested flow:
 
 ```text
-Harness approved command
+Approved Second Brain command
         |
         v
 n8n webhook: research_capture
