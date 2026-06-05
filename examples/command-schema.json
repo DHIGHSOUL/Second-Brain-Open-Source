@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/jarvis-second-brain-harness/command.schema.json",
+  "title": "Jarvis Second Brain Harness Command",
+  "description": "Structured command proposal for the Jarvis Second Brain Harness approval and execution flow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "command_id",
+    "version",
+    "intent",
+    "risk_level",
+    "adapter",
+    "action",
+    "parameters",
+    "summary",
+    "requires_approval"
+  ],
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "pattern": "^cmd_[a-zA-Z0-9_\\-]+$",
+      "description": "Stable identifier for the proposed command."
+    },
+    "version": {
+      "type": "string",
+      "enum": [
+        "0.1"
+      ],
+      "description": "Command schema version."
+    },
+    "intent": {
+      "type": "string",
+      "enum": [
+        "search_notes",
+        "read_note",
+        "create_note",
+        "update_note",
+        "delete_note",
+        "open_application",
+        "run_local_script",
+        "call_webhook",
+        "summarize_context",
+        "unknown"
+      ],
+      "description": "High-level user intent."
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "read_only",
+        "write",
+        "destructive",
+        "external",
+        "system"
+      ],
+      "description": "Declared risk level. The harness should independently verify this."
+    },
+    "adapter": {
+      "type": "string",
+      "enum": [
+        "obsidian",
+        "mac_automation",
+        "codex",
+        "n8n",
+        "local_script",
+        "none"
+      ],
+      "description": "Target adapter responsible for execution."
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Adapter-specific action name."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Adapter-specific parameters.",
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable explanation of the proposed command."
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "description": "Whether the command requires explicit approval before execution."
+    },
+    "approval_reason": {
+      "type": "string",
+      "description": "Reason approval is required, especially for write, destructive, external, or system actions."
+    },
+    "dry_run": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the command should initially run as a dry-run preview."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Optional metadata for tracing, UI display, or debugging."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "risk_level": {
+            "enum": [
+              "write",
+              "destructive",
+              "external",
+              "system"
+            ]
+          }
+        },
+        "required": [
+          "risk_level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requires_approval": {
+            "const": true
+          }
+        },
+        "required": [
+          "approval_reason"
+        ]
+      }
+    }
+  ]
+}
