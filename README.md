@@ -6,6 +6,8 @@ This repository opens the design behind my personal Second Brain project. It doc
 
 The project started as a personal system. The goal of open-sourcing it is to share the architecture, prompts, workflow patterns, command schema, and security model so other people can adapt the ideas for their own knowledge base and automation setup.
 
+If this project is selected for the ChatGPT Open Source (OSS) program, I will begin fully opening it to the public and continue the research.
+
 ## Current personal setup
 
 **Architecture**
