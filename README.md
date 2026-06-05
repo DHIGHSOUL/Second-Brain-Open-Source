@@ -6,7 +6,8 @@ The goal of this project is not only to control a computer by voice, but to desi
 
 This project is currently in an early stage. The initial focus is on documenting the architecture, safety model, command schema, approval flow, and automation patterns before expanding into a working implementation.
 
-Currently I use like this
+Currently I use like this<br>
+
 [!Second-Brain-Architecture](./img/Second_Brain_Architecture_English.png)
 
 ## Goals
