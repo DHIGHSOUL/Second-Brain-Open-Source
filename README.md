@@ -8,8 +8,14 @@ This project is currently in an early stage. The initial focus is on documenting
 
 Currently I use like this<br>
 
+**Architecture**
 ![Second-Brain-Architecture](./img/Second_Brain_Architecture_English.png)
+
+**n8n-Workflows**
 ![Actual-n8n](./img/Actual_n8n.png)
+
+**Obsidian-Vault**
+![Obsidian-Vault](./img/Obsidian-Vault.png)
 
 ## Goals
 
