@@ -1,10 +1,13 @@
-# Jarvis Second Brain Harness
+# Jarvis-Second Brain
 
 Jarvis Second Brain Harness is an experimental open-source project for connecting ChatGPT, Codex, voice control, Mac automation, and Obsidian MCP into a personal AI operating system.
 
 The goal of this project is not only to control a computer by voice, but to design a safe and reusable harness that allows users to connect AI assistants with their own working environment, knowledge base, and daily workflows.
 
 This project is currently in an early stage. The initial focus is on documenting the architecture, safety model, command schema, approval flow, and automation patterns before expanding into a working implementation.
+
+Currently I use like this
+[!Second-Brain-Architecture](./img/Second_Brain_Architecture_English.png)
 
 ## Goals
 
