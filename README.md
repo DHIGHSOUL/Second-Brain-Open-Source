@@ -9,6 +9,7 @@ This project is currently in an early stage. The initial focus is on documenting
 Currently I use like this<br>
 
 ![Second-Brain-Architecture](./img/Second_Brain_Architecture_English.png)
+![Actual-n8n](./img/Actual_n8n.png)
 
 ## Goals
 
